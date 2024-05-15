@@ -1,0 +1,103 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+      <main role="main" class="main-content">
+
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+
+              <div class="row my-4">
+                Private Files
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr style="text-align:center;">
+                            <th>No</th>
+                            <th>Doc Name</th>
+                            <th>Doc Desc</th>
+                            <th>Security Technique</th>
+                            <th>Doc Type</th>
+                            <th>Doc Size</th>
+                            <th>Uploaded Date And Time</th>
+                            <th>Download</th>
+                            <th>Delete</th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% if file %}
+                        {% for data1 in file %}
+                          <tr>
+                            <td>
+                              {{ forloop.counter }}
+                            </td>
+                            <td>{{ data1.document_title }}</td>
+                            <td>{{ data1.document_description }}</td>
+                            <td>{{ data1.document_security_technique }}</td>
+                            <td>{{ data1.document_type }}</td>
+                            <td>{{ data1.document_size|filesizeformat }}</td>
+                            <td>{{ data1.document_publish_date_time }}</td>
+                            <td><button type="button" class="btn btn-large btn-primary" style="background-color:grey;" data-toggle="modal" data-target="#varyModal{{ data1.id }}" onclick="focusPasswordField('#varyModal{{ data1.id }}')"><span class="fe fe-10 fe-unlock"></span> Unlock</button>
+                            </td>
+                            <td>
+                                  <form action="/movetobin" method="POST">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="bin" value="{{ data1.id }}">
+                                      <input type="hidden" name="uploads" value="fromPrivate">
+                                      <button type="submit" class="btn btn-large btn-primary" style="background-color:grey;">Delete</button>
+                                  </form>
+                              </td>
+
+                          <div class="modal fade" id="varyModal{{ data1.id }}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabel{{ data1.id }}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="varyModalLabel">Please Enter Password</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form action="/verifypass" method="POST">
+                                  <div class="modal-body">
+                                      {% csrf_token %}
+                                      <div class="form-group">
+                                        <input type="hidden" value="{{data1.id}}" name="docid">
+                                        <label for="passwordForm" class="col-form-label">Password:</label>
+                                        <input type="password" class="form-control" id="passwordForm" name="pass">
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn mb-2 btn-primary" onclick="closeModalAndResetForm($(this).closest('.modal'))">Download</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          </tr>
+                        {% endfor %}
+
+                        {% else %}
+                        <tr><td colspan="9" align="center">No Private Files Uploaded.</td></tr>
+                        {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+
+
+        </div> <!-- .container-fluid -->
+
+      </main> <!-- main -->
+{% endblock %}
+

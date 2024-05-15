@@ -1,0 +1,63 @@
+{% extends 'base.html'%}
+
+{% block content %}
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="page-title">Have a Question?</h2>
+              <p class="text-muted">We Will Get in Touch With You Shortly</p>
+              <hr class="my-4">
+              <div class="card shadow mb-4">
+                <div class="card-header">
+                  <strong class="card-title">Enquiry Form</strong>
+                </div>
+                <div class="card-body">
+                  <form action="/getenquiry" method="POST">
+                    {% csrf_token %}
+                  <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="simpleinput">First Name</label>
+                          <input type="text" id="simpleinput" class="form-control" value="{{data.fname}}" readonly="" name="fname">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="example-helping">Last Name</label>
+                          <input type="text" value="{{data.lname}}" readonly="" name="lname" id="example-helping" class="form-control" placeholder="Input with helping text">
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group mb-3">
+                          <label for="example-email">Email</label>
+                          <input type="email" id="example-email" value="{{data.email}}" readonly="" name="mail" class="form-control" placeholder="Email">
+                          We'll never share your email with anyone
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group mb-3">
+                          <label for="example-subject">Subject</label>
+                          <input type="text" id="example-subject" class="form-control" name="subject" placeholder="Enter Subject" required>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group mb-3">
+                          <label for="example-msg">Your Message</label>
+                          <textarea class="form-control" id="example-msg" name="message" rows="5" required></textarea>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group mb-3">
+                          <button class="btn btn-large btn-block btn-primary" type="submit">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div> <!-- / .card -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+      </main>
+{% endblock %}

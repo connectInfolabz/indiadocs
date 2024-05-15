@@ -1,0 +1,79 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+              <h2 class="h3 mb-4 page-title">Current Package</h2>
+
+                <div class="card-deck my-4">
+                <div class="card mb-4 shadow">
+                  <div class="card-body text-center my-4">
+                    <a href="#">
+                      <h3 class="h5 mt-4 mb-0">{{package.premium_package_id.package_type}}</h3>
+                    </a>
+                    <p class="text-muted">package</p>
+                    <span class="h1 mb-0">₹ {{package.premium_package_id.package_price}}</span>
+                    <p class="text-muted">Expires on: {{package.package_expiry_date}}</p>
+                    <ul class="list-unstyled">
+                      <li>{{package.premium_package_id.package_description}}</li>
+
+                    </ul>
+                    <span class="dot dot-lg bg-success"></span>
+                    <span class="text-muted ml-3">Active</span>
+                  </div> <!-- .card-body -->
+                </div> <!-- .card -->
+              </div> <!-- .card-group -->
+              </div> <!-- /.card-body -->
+               <table class="table table-borderless table-striped">
+                <thead>
+                  <tr role="row">
+                    <th>No.</th>
+                    <th>Payment Date And Time</th>
+                    <th>Amount</th>
+                    <th>Transaction Id</th>
+                    <th>Status</th>
+                   <!-- <th>Print</th>-->
+                  </tr>
+                </thead>
+                <tbody>
+                {% if payment %}
+                  {% for pay in payment %}
+                    <tr>
+                      <th scope="col">{{ forloop.counter }}</th>
+                      <td>{{ pay.package_purchase_date }}</td>
+                      <td>{{pay.amount}}</td>
+                      <td>{{pay.transactionid}}</td>
+                      {% if pay.payment_status == "completed" %}
+                      <td><span class="dot dot-lg bg-success mr-2"></span>Paid</td>
+                      {% else %}
+                      <td><span class="dot dot-lg bg-danger mr-2"></span>False</td>
+                      {% endif %}
+                      <!--<td>
+                        <div class="dropdown">
+                          <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted sr-only">Action</span>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">Remove</a>
+                            <a class="dropdown-item" href="#">Assign</a>
+                          </div>
+                        </div>
+                      </td>-->
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="5" style="text-align:center">You haven't made any Transactions Yet.</td>
+                  </tr>
+                {% endif %}
+                </tbody>
+              </table>
+            </div> <!-- /.col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+      </main> <!-- main -->
+
+{% endblock %}

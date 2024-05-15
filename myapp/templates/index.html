@@ -1,0 +1,123 @@
+{% extends 'base.html'%}
+
+{% block content %}
+{% if notification %}
+    {{ notification }}
+{% endif %}
+<main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              {% if fname %}
+              <h2 class="h3 page-title">Welcome {{ fname }} {{ lname }}!</h2>
+              {% else %}
+              <h2 class="h3 page-title">Welcome To INDIADOCS!</h2>
+              {% endif %}
+              {% if fname %}
+                <div class="row my-4">
+                  <div class="col-md-4">
+                    <div class="card shadow mb-4">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                            <h3 class="card-title mb-0">{{count}}</h3>
+                            <p class="small text-muted mb-0"><span>My uploads</span></p>
+                          </div>
+                          <div class="col-4 text-right">
+                            <span class="fe fe-24 fe-hard-drive"></span>
+                          </div>
+                        </div> <!-- /. row -->
+                      </div> <!-- /. card-body -->
+                    </div> <!-- /. card -->
+                  </div> <!-- /. col -->
+                  <div class="col-md-4">
+                    <div class="card shadow mb-4">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                            <h3 class="card-title mb-0">{{data}}</h3>
+                            <p class="small text-muted mb-0"><span>Shared With Me</span></p>
+                          </div>
+                          <div class="col-4 text-right">
+                            <span class="fe fe-24 fe-users"></span>
+                          </div>
+                        </div> <!-- /. row -->
+                      </div> <!-- /. card-body -->
+                    </div> <!-- /. card -->
+                  </div> <!-- /. col -->
+                  <div class="col-md-4">
+                    <div class="card shadow mb-4">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                            <h3 class="card-title mb-0">{{package.premium_package_id.package_type}}</h3>
+                            <p class="small text-muted mb-0"><span>Current Premium Package</span></p>
+                          </div>
+                          <div class="col-4 text-right">
+                            <span class="fe fe-grid fe-16"></span>
+                          </div>
+                        </div> <!-- /. row -->
+                      </div> <!-- /. card-body -->
+                    </div> <!-- /. card -->
+                  </div> <!-- /. col -->
+                </div> <!-- .row -->
+              {% endif %}
+              {% if not package or mydata %}
+                <div class="row my-4">
+                  <div class="col-6 col-lg-4">
+                    <div class="card shadow mb-4">
+                      <div class="card-body">
+                        <i class="fe fe-info fe-32 text-primary"></i>
+                          <h3 class="h5 mt-4 mb-1">Already Registered?</h3>
+                        <a href="/login"><h3 class="h5 mt-4 mb-1">Click Here to Login</h3></a>
+                      </div> <!-- .card-body -->
+                    </div> <!-- .card -->
+                  </div> <!-- .col-md-->
+                  <div class="col-6 col-lg-4">
+                    <div class="card shadow mb-4">
+                      <div class="card-body">
+                        <i class="fe fe-help-circle fe-32 text-success"></i>
+                          <h3 class="h5 mt-4 mb-1">New Here?</h3>
+                        <a href="/register"><h3 class="h5 mt-4 mb-1">Click Here to Register</h3></a>
+                      </div> <!-- .card-body -->
+                    </div> <!-- .card -->
+                  </div> <!-- .col-md-->
+                  <div class="col-6 col-lg-4">
+                    <div class="card shadow">
+                      <div class="card-body">
+                        <i class="fe fe-alert-triangle fe-32 text-danger"></i>
+                          <h3 class="h5 mt-4 mb-1">Facing Issues?</h3>
+                        <a href="/contact"><h3 class="h5 mt-4 mb-1">Report A Bug</h3></a>
+                      </div> <!-- .card-body -->
+                    </div> <!-- .card -->
+                  </div> <!-- .col-md-->
+                </div> <!-- .row -->
+              {% else %}
+                <h3>Feedbacks</h3>
+                <p class="text-muted">Below are some of our Esteemed User's Feedback.</p>
+                {% if feedbacks %}
+                  {% for feedback in feedbacks %}
+                <div class="col-md-12 mb-4">
+                    <div class="card shadow">
+                      <div class="card-body">
+                        {% for rating in feedback.rating_stars %}
+                                <i class="fas fa-star"></i>
+                                {% endfor %}
+                          <blockquote class="blockquote">
+                          <p class="mb-0">{{feedback.message}}</p>
+                          <footer class="blockquote-footer">By <cite title="Source Title">{{feedback.firstname}} {{ feedback.lastname }}</cite></footer>
+                        </blockquote>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+                {% else %}
+                  <a href="/feedback">Write Your First Feedback</a>
+                {% endif %}
+              {% endif %}
+
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+      </main> <!-- main -->
+{% endblock %}

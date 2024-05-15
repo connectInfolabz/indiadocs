@@ -1,0 +1,161 @@
+<!doctype html>
+{%include 'message.html'%}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>INDIADOCS | Register</title>
+    <!-- Simple bar CSS -->
+    <link rel="stylesheet" href="static/css/simplebar.css">
+    <!-- Fonts CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Icons CSS -->
+    <link rel="stylesheet" href="static/css/feather.css">
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" href="static/css/daterangepicker.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="static/css/app-light.css" id="lightTheme" disabled>
+    <link rel="stylesheet" href="static/css/app-dark.css" id="darkTheme">
+  </head>
+  <body class="dark ">
+    <div class="wrapper vh-100">
+      <div class="row align-items-center h-100">
+        <form class="col-lg-6 col-md-8 col-10 mx-auto" action="/savedata" method="POST" onsubmit="return formValidation()">
+          {% csrf_token %}
+          <div class="mx-auto text-center my-4">
+            <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="index.html">
+              <svg version="1.1" id="logo" class="navbar-brand-img brand-md" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
+                <g>
+                  <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
+                  <polygon class="st0" points="96,69 33,69 42,51 105,51 	" />
+                  <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
+                </g>
+              </svg>
+            </a>
+            <h2 class="my-3">Register</h2>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="firstname">First Name</label>
+              <input type="tel" id="firstname" class="form-control" name="fname">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastname">Last Name</label>
+              <input type="text" id="lastname" class="form-control" name="lname">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" id="inputEmail" name="email">
+          </div>
+          <div class="form-group">
+            <label for="P_no">Phone Number</label>
+            <input type="text" class="form-control" id="P_no" name="phno" maxlength="10">
+          </div>
+          <hr class="my-4">
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="input_Password">New Password</label>
+                <input type="password" class="form-control" id="input_Password" name="pass">
+              </div>
+              <div class="form-group">
+                <label for="inputPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="input_Password" name="cpass">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <p class="mb-2">Password requirements</p>
+              <p class="small text-muted mb-2"> To create a new password, you have to meet all of the following requirements: </p>
+              <ul class="small text-muted pl-4 mb-0">
+                <li> Minimum 8 characters and Maximum 15 characters</li>
+                <li>At least one Special character</li>
+                <li>At least one Uppercase letter</li>
+                <li>At least one Number</li>
+              </ul>
+            </div>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Sign up</button><br>
+         <span> Already have account ? </span>
+          <a class="btn btn-lg btn-primary btn-block" href="/login">Login Here</a>
+          <p class="mt-5 mb-3 text-muted text-center">© 2024</p>
+        </form>
+      </div>
+    </div>
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/moment.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/simplebar.min.js"></script>
+    <script src='static/js/daterangepicker.js'></script>
+    <script src='static/js/jquery.stickOnScroll.js'></script>
+    <script src="static/js/tinycolor-min.js"></script>
+    <script src="static/js/config.js"></script>
+    <script src="static/js/apps.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
+        <script>// Select all input elements for verification
+
+    const userName = document.getElementById("firstname");
+    const lastName = document.getElementById("lastname");
+    const email = document.getElementById("inputEmail");
+    const password = document.getElementById("input_Password");
+    const phoneNumber = document.getElementById("P_no");
+    const submitBtn =document.getElementById("submit");
+    // function for form verification
+    function formValidation() {
+      // checking length of name
+      if (userName.value.length < 2 || userName.value.length > 50) {
+        alert("First Name length should be more than 2 and less than 30 characters");
+        userName.focus();
+        return false;
+      }
+      if (lastName.value.length < 2 || lastName.value.length > 50) {
+        alert("Last Name length should be more than 2 and less than 30 characters");
+        lastName.focus();
+        return false;
+      }
+
+      // Check E-mail Is Valid
+      if (!email.value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+        alert("Please Enter Valid Email");
+        email.focus();
+        return false;
+          }
+
+       // checking phone number
+       if (!phoneNumber.value.match(/^[1-9][0-9]{9}$/)) {
+        alert("Phone number must be 10 characters long number and first digit can't be 0!");
+        phoneNumber.focus();
+        return false;
+      }
+
+      // checking password character pattern
+      if (password.value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/)) {
+        password.focus();
+        return true;
+      }
+      else{
+        alert("Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character, and must be between 8 and 15 characters long.");
+        password.focus();
+        return false;
+      }
+
+    }
+
+    </script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag()
+      {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-56159088-1');
+    </script>
+  </body>
+</html>

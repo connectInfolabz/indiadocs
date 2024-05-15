@@ -1,0 +1,71 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+      <main role="main" class="main-content">
+
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+
+              <div class="row my-4">
+                Public Files
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Doc Name</th>
+                            <th>Doc Desc</th>
+                            <th>Security Technique</th>
+                            <th>Doc Type</th>
+                            <th>Doc Size</th>
+<!--                            <th>Uploaded Date And Time</th>-->
+                            <th>Download</th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% if file %}
+                        {% for data1 in file %}
+                          <tr>
+                            <td>
+                              {{ forloop.counter }}
+                            </td>
+                            <td>{{ data1.document_title }}</td>
+                            <td>{{ data1.document_description }}</td>
+                            <td>{{ data1.document_security_technique }}</td>
+                            <td>{{ data1.document_type }}</td>
+                            <td>{{ data1.document_size|filesizeformat }}</td>
+<!--                            <td>{{ data1.document_publish_date_time }}</td>-->
+                            <td>
+                                  <form action="/download" method="POST">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="doc_id" value="{{ data1.id }}">
+                                      <input type="hidden" name="security" value="{{ data1.document_security_technique }}">
+                                      <button type="submit" class="btn btn-large btn-primary" style="background-color:grey;">Download</button>
+                                  </form>
+                              </td>
+                          </tr>
+                        {% endfor %}
+
+                        {% else %}
+                        <tr><td colspan="9" align="center">No Public Files Available.</td></tr>
+                        {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+
+      </main> <!-- main -->
+{% endblock %}
+

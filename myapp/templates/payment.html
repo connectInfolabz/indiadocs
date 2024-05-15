@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Page</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  #onlinePaymentFields {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>Make Payment</h2>
+
+<form method="post" action="/managepayment">
+{%csrf_token%}
+  <div id="onlinePaymentFields">
+    <div class="form-group">
+      <label for="accountNumber" >Card Number:</label>
+      <input type="number" oninput="limitInputLength(this,16);" name="cardNumber" id="accountNumber" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="cvv">CVV:</label>
+      <input type="number" id="cvv" oninput="limitInputLength(this,3);" name="cvv" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="expiryDate">Expiry Date:</label>
+      <input type="text" oninput="validateExpiryDate(this);" id="expiryDate" name="expiryDate" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="totalAmount">Amount to be Paid:</label>
+      <input type="number" id="totalAmount" value="{{amount}}" class="form-control" readonly>
+      <input type="hidden" name="amount" id="amountField" value="{{amount}}" style="display:none;">
+    </div>
+  </div>
+
+  <input type="submit" value="Make Payment" class="btn btn-primary">
+
+</form>
+</div>
+<script>
+window.addEventListener('DOMContentLoaded', (event) => {
+    var amountField = document.getElementById('amountField');
+    amountField.style.display = 'none';
+});
+</script>
+<script>
+  const paymentMethodSelect = document.getElementById('paymentMethod');
+  const onlinePaymentFields = document.getElementById('onlinePaymentFields');
+  const onlinePaymentInputs = onlinePaymentFields.querySelectorAll('input');
+
+  function limitInputLength(inputElement, maxLength) {
+    var inputValue = inputElement.value.toString();
+    inputValue = inputValue.replace(/[^0-9]/g, '');
+    inputValue = inputValue.slice(0, maxLength);
+    inputElement.value = inputValue;
+  }
+
+  function validateExpiryDate(inputElement) {
+    var inputValue = inputElement.value;
+    var pattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    if (!pattern.test(inputValue)) {
+      inputElement.setCustomValidity("Invalid expiry date format (MM/YY)");
+    } else {
+      inputElement.setCustomValidity("");
+    }
+  }
+
+  onlinePaymentFields.style.display = 'block';
+
+  paymentMethodSelect.addEventListener('change', function() {
+    if (this.value === 'online') {
+      onlinePaymentFields.style.display = 'block';
+      onlinePaymentInputs.forEach(input => {
+        input.setAttribute('required', '');
+      });
+    } else {
+      onlinePaymentFields.style.display = 'none';
+      onlinePaymentInputs.forEach(input => {
+        input.removeAttribute('required');
+      });
+    }
+  });
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

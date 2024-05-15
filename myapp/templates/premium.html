@@ -1,0 +1,52 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<main role="main" class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="page-title">Premium Package</h2>
+                <p class="text-muted">Go For A Premium Version</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for package in packages %}
+            <div class="col-md-4">
+                <form method="POST" action="/payment">
+                    {% csrf_token %}
+                    <div class="card mb-4 mb-4 shadow" id="paymentcard">
+                        <div class="card-body text-center my-4">
+                            <h3 class="h3 mt-4 mb-0">{{ package.package_type }}</h3>
+                            <p class="text-muted">package</p>
+                            <span class="h1 mb-0">₹{{ package.package_price }}</span>
+                            {% if package.package_price == 0 %}
+                            <p class="text-muted">Unlimited Days</p>
+                            {% else %}
+                            <p class="text-muted">{{ package.package_duration }} Days</p>
+                            {% endif %}
+                            <ul class="list-unstyled">
+                                <li>{{ package.package_description }}</li>
+                            </ul>
+                            {% if package.package_price == 0.0 and cp.premium_package_id.package_type == package.package_type %}
+                            <span class="dot dot-lg bg-success"></span>
+                            <span class="text-muted ml-3">Active</span>
+                            {% elif package.package_price == 0.0 and  not cp.premium_package_id.package_type == package.package_type %}
+                            <button type="button" class="btn mb-2 btn-primary btn-lg" disabled>Upgrade</button>
+                            {% elif cp.premium_package_id.package_type == package.package_type and cp.package_status == 'active' and not package.package_price == 0.0 %}
+                            <span class="dot dot-lg bg-success"></span>
+                            <span class="text-muted ml-3">Active</span>
+                            {% elif not cp.premium_package_id.package_type == "Basic" and cp.package_status == 'active' and not package.package_price == 0.0 %}
+                            <button type="button" class="btn mb-2 btn-primary btn-lg" disabled>Upgrade</button>
+                            {% else %}
+                            <input type="hidden" name="amount" value="{{ package.package_price }}" style="display:none">
+                            <button type="submit" class="btn mb-2 btn-primary"><span class="fe fe-10 fe-shopping-cart"></span> Buy Now</button>
+                            {% endif %}
+                        </div> <!-- .card-body -->
+                    </div> <!-- .card -->
+                </form>
+            </div> <!-- .col-md-4 -->
+            {% endfor %}
+        </div> <!-- .row -->
+    </div> <!-- .container-fluid -->
+</main>
+{% endblock %}

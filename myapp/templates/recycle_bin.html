@@ -1,0 +1,62 @@
+{% extends 'base.html'%}
+
+{% block content %}
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="mb-2 page-title">Recycle Bin</h2>
+              <p class="card-text">Restore Documents you have deleted.</p>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr>
+
+                            <th>No</th>
+                            <th>Doc Name</th>
+                            <th>Doc Desc</th>
+                            <th>Security Technique</th>
+                            <th>Doc Type</th>
+                            <th>Doc Size</th>
+                            <th>Restore</th>
+                            <th>Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for data in mydata %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ data.document_title }}</td>
+                              <td>{{ data.document_description }}</td>
+                              <td>{{ data.document_security_technique }}</td>
+                              <td>{{ data.document_type }}</td>
+                              <td>{{ data.document_size|filesizeformat }}</td>
+                              <form action="/restore" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{data.id}}" name="bin">
+                              <td><button type="submit" class="btn btn-large btn-primary" style="background-color:grey;">Restore</button></td>
+                              </form>
+                             <form action="/deletefile" method="POST">
+                                {% csrf_token %}
+                               <input type="hidden" value="{{data.id}}" name="permanentdelete">
+                              <td><button type="submit" class="btn btn-large btn-primary" style="background-color:grey;">Delete</button></td>
+                             </form>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+      </main> <!-- main -->
+{% endblock %}

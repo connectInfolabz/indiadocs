@@ -1,0 +1,172 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="mb-2 page-title">Share Documents</h2>
+              <p class="card-text">Share Your Documents Safely In one Click.</p>
+              <div class="row my-4">
+                Share Documents
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr>
+
+                            <th>No</th>
+                            <th>Doc Name</th>
+                            <th>Doc Desc</th>
+                            <th>Security Technique</th>
+                            <th>Doc Type</th>
+                            <th>Doc Size</th>
+                            <th>Uploaded Date</th>
+                            <th>Share</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for data in sharedata %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ data.document_title }}</td>
+                              <td>{{ data.document_description }}</td>
+                              <td>{{ data.document_security_technique }}</td>
+                              <td>{{ data.document_type }}</td>
+                              <td>{{ data.document_size|filesizeformat }}</td>
+                              <td>{{ data.document_publish_date_time }}</td>
+                              <td><button type="button" class="btn btn-large btn-primary" style="background-color:grey;" data-toggle="modal"
+                                          data-target="#varyModal{{ data.id }}" onclick="focusPasswordField('#varyModal{{ data.id }}')">Share</button></td>
+                            </tr>
+
+                          <div class="modal fade" id="varyModal{{ data.id }}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabel{{ data.id }}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="varyModalLabel">Please Enter Receiver Email</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form action="/aftertransit" method="POST">
+                                  <div class="modal-body">
+                                      {% csrf_token %}
+                                      <div class="form-group">
+                                        <input type="hidden" name="docid" value="{{data.id}}">
+                                        <label for="example-email">Email Address</label>
+                                        <input type="email" id="example-email" name="mail" class="form-control" placeholder="Email" required>
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn mb-2 btn-primary" onclick="closeModalAndResetForm($(this).closest('.modal'))">Share</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+
+              <div class="row my-4">
+                Sent Documents
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Doc Name</th>
+                            <th>Doc Desc</th>
+                            <th>Security Technique</th>
+                            <th>Doc Type</th>
+                            <th>Doc Size</th>
+                            <th>Uploaded Date</th>
+                            <th>Forward</th>
+                            <th>Unsend</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% if getsharedata %}
+                        {% for data1 in getsharedata %}
+                          <tr>
+                            <td>
+                              {{ forloop.counter }}
+                            </td>
+                            <td>{{ data1.document_title }}</td>
+                            <td>{{data1.document_description}}</td>
+                            <td>{{data1.document_security_technique}}</td>
+                            <td>{{data1.document_type}}</td>
+                            <td>{{data1.document_size|filesizeformat}}</td>
+                            <td>{{data1.document_publish_date_time}}</td>
+                            <td><button type="button" class="btn btn-large btn-primary" style="background-color:grey;"
+                                        data-toggle="modal"
+                                          data-target="#varyModal{{ data1.id }}">Forward</button></td>
+                             <form action="/unsend" method="POST">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="doc_un_send_id" value="{{data1.id}}">
+                              <td><button type="submit" class="btn btn-large btn-primary" style="background-color:grey;">Unsend</button></td>
+                             </form>
+                          </tr>
+
+
+                        <div class="modal fade" id="varyModal{{ data1.id }}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabel{{ data1.id }}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="varyModalLabel">Please Enter Password</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form action="/aftertransit" method="POST">
+                                  <div class="modal-body">
+                                      {% csrf_token %}
+                                      <div class="form-group">
+                                        <input type="hidden" name="docid" value="{{data1.id}}">
+                                        <label for="example-email">Email Address</label>
+                                        <input type="email" id="example-email" name="mail" class="form-control" placeholder="Email" required>
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn mb-2 btn-primary" onclick="closeModalAndResetForm($(this).closest('.modal'))">Share</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          {% endfor %}
+                         {% else %}
+                        <tr><td colspan="9" align="center">No Data has been shared Yet.</td></tr>
+                        {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+      </main> <!-- main -->
+{% endblock %}
+

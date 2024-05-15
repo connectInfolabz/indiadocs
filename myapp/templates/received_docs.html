@@ -1,0 +1,68 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+      <main role="main" class="main-content">
+
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <div class="row my-4">
+                Shared Documents
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables" id="dataTable-1">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Doc Name</th>
+                            <th>Doc Desc</th>
+                            <th>Shared by</th>
+                            <th>Doc Type</th>
+                            <th>Doc Size</th>
+                            <th>Download</th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% if doc %}
+                        {% for data1 in doc %}
+                          <tr>
+                            <td>
+                              {{ forloop.counter }}
+                            </td>
+                            <td>{{ data1.docid.document_title }}</td>
+                            <td>{{ data1.docid.document_description }}</td>
+                            <td>{{data1.userid.email}}</td>
+                            <td>{{data1.docid.document_type}}</td>
+                            <td>{{data1.docid.document_size|filesizeformat}}</td>
+                            <td>
+                                  <form action="/download" method="POST">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="doc_id" value="{{ data1.docid.id }}">
+                                      <input type="hidden" name="security" value="{{ data1.docid.document_security_technique }}">
+                                      <button type="submit" class="btn btn-large btn-primary" style="background-color:grey;">Download</button>
+                                  </form>
+                            </td>
+                          </tr>
+                        {% endfor %}
+
+                        {% else %}
+                        <tr><td colspan="9" align="center">No Files has been shared Yet.</td></tr>
+                        {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+
+      </main> <!-- main -->
+{% endblock %}
+

@@ -1,0 +1,52 @@
+{% extends 'base.html'%}
+
+{% block content %}
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="page-title">File Upload</h2>
+              <p class="lead text-muted">Upload Your File Publicly.</p>
+              <div class="row mb-4">
+                <div class="col-md-12">
+                  <div class="card shadow mb-4">
+                    <div class="card-body">
+                      <div class="form-group mb-3">
+                        <form action="/getuserprivilegefile" enctype="multipart/form-data" method="POST">
+                          {% csrf_token %}
+                          <div class="form-group mb-3">
+                            <label for="simpleinput">File Title</label>
+                            <input type="text" id="simpleinput" class="form-control" placeholder="Enter File Title" name="docname" required>
+                          </div>
+                          <!--<div class="form-group mb-3">
+                            <label for="simpleinput1">File\ Type</label>
+                            <input type="text" id="simpleinput1" class="form-control" name="doctype">
+                          </div>-->
+                          <div class="form-group mb-3">
+                            <label for="example-textarea">File Description</label>
+                            <textarea class="form-control" id="example-textarea" name="docdesc" rows="4" placeholder="Enter File Description" required></textarea>
+                          </div>
+                          <div class="form-group mb-3">
+                            <label for="customFile">File</label>
+                            <div class="custom-file">
+                              <input type="file" name="files" class="custom-file-input" id="customFile" required>
+                              <label class="custom-file-label"  for="customFile">Choose file</label>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <input type="hidden" name="security" value="public">
+                            <button class="btn btn-large btn-block btn-primary" type="submit">Upload</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->
+                </div> <!-- /.col -->
+              </div> <!-- .row -->
+            </div>
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+
+
+      </main> <!-- main -->
+{% endblock %}

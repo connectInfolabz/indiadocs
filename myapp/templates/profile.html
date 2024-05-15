@@ -1,0 +1,86 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+              <h2 class="h3 mb-4 page-title">Profile</h2>
+              <div class="my-4">
+                <form method="POST" action="/changePassword" onsubmit="return formValidation()">
+                  {% csrf_token %}
+                  <hr class="my-4">
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="firstname">Firstname</label>
+                        <input type="text" id="firstname" class="form-control" value="{{user.fname}}" readonly>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="lastname">Lastname</label>
+                        <input type="text" id="lastname" class="form-control" value="{{user.lname}}" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEmail4">Email</label>
+                      <input type="email" class="form-control" name="email" id="inputEmail4" value="{{user.email}}" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputNumber">Phone Number</label>
+                      <input type="number" name="p_number" class="form-control" id="inputNumber" value="{{user.number}}" readonly>
+                    </div>
+                  <hr class="my-4">
+                  <div class="row mb-4">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="inputPassword4">Old Password</label>
+                        <input type="password" name="old_password" class="form-control" id="inputPassword4">
+                      </div>
+                      <div class="form-group">
+                        <label for="inputPassword5">New Password</label>
+                        <input type="password" name="new_password" class="form-control" id="inputPassword5">
+                      </div>
+                      <div class="form-group">
+                        <label for="inputPassword6">Confirm Password</label>
+                        <input type="password" name="c_new_password" class="form-control" id="inputPassword6">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <p class="mb-2">Password requirements</p>
+                      <p class="small text-muted mb-2"> To create a new password, you have to meet all of the following requirements: </p>
+                      <ul class="small text-muted pl-4 mb-0">
+                        <li> Minimum 8 character </li>
+                        <li>At least one special character</li>
+                        <li>At least one number</li>
+                        <li>Can’t be the same as a previous password </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Save Change</button>
+                </form>
+              </div> <!-- /.card-body -->
+
+            </div> <!-- /.col-12 -->
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+      </main> <!-- main -->
+      <script>// Select all input elements for verification
+        const password = document.getElementById("inputPassword4");
+
+        // function for form verification
+        function formValidation() {
+
+          // checking password character pattern
+          if (password.value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/)) {
+            password.focus();
+            return true;
+          }
+          else{
+            alert("Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character, and must be between 8 and 15 characters long.");
+            password.focus();
+            return false;
+          }
+
+        }
+
+      </script>
+{% endblock %}

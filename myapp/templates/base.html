@@ -1,0 +1,552 @@
+
+<!doctype html>
+{%include 'message.html'%}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>INDIADOCS</title>
+    <!-- Simple bar CSS -->
+    <link rel="stylesheet" href="static/css/simplebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Fonts CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Icons CSS -->
+    <link rel="stylesheet" href="static/css/feather.css">
+    <link rel="stylesheet" href="static/css/select2.css">
+    <link rel="stylesheet" href="static/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="static/css/dropzone.css">
+    <link rel="stylesheet" href="static/css/uppy.min.css">
+    <link rel="stylesheet" href="static/css/jquery.steps.css">
+    <link rel="stylesheet" href="static/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="static/css/quill.snow.css">
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" href="static/css/daterangepicker.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="static/css/app-light.css" id="lightTheme" disabled>
+    <link rel="stylesheet" href="static/css/app-dark.css" id="darkTheme">
+    <style>
+      #paymentcard{
+      height:400px;
+      width:380px;
+      }
+      </style>
+
+  </head>
+  <body class="vertical  dark  ">
+    <div class="wrapper">
+      <nav class="topnav navbar navbar-light">
+        <button type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar">
+          <i class="fe fe-menu navbar-toggler-icon"></i>
+        </button>
+
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="dark">
+              <i class="fe fe-sun fe-16"></i>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="avatar avatar-sm mt-2">
+                <img src="static/assets/avatars/profile.png" alt="..." class="avatar-img rounded-circle">
+              </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/profile">Profile</a>
+              <a class="dropdown-item" href="/mypackage">My Package</a>
+<!--              <a class="dropdown-item" href="#">Activities</a>-->
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
+        <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
+          <i class="fe fe-x"><span class="sr-only"></span></i>
+        </a>
+        <nav class="vertnav navbar navbar-light">
+          <!-- nav bar -->
+          <div class="w-100 mb-4 d-flex">
+            <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="./index.html">
+              <svg version="1.1" id="logo" class="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
+                <g>
+                  <polygon class="st0" points="78,105 15,105 24,87 87,87" />
+                  <polygon class="st0" points="96,69 33,69 42,51 105,51" />
+                  <polygon class="st0" points="78,33 15,33 24,15 87,15" />
+                </g>
+              </svg>
+            </a>
+          </div>
+          <ul class="navbar-nav flex-fill w-100 mb-2">
+            <li class="nav-item w-100">
+              <a class="nav-link" href="index.html">
+                <span class="fe fe-24 fe-home"></span>
+                <span class="ml-3 item-text">Dashboard</span>
+              </a>
+            </li>
+            {% if package or mydata %}
+                  <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>My Files</span>
+                  </p>
+                  <li class="nav-item w-100">
+                    <a class="nav-link" href="myuploads">
+                      <span class="fe fe-24 fe-hard-drive"></span>
+                      <span class="ml-3 item-text">My Uploads</span>
+                    </a>
+                  </li>
+                  <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>My Bin</span>
+                  </p>
+
+                  <li class="nav-item w-100">
+                    <a class="nav-link" href="/recyclebin">
+                      <span class="fe fe-24 fe-trash-2"></span>
+                      <span class="ml-3 item-text">Recycle Bin</span>
+                    </a>
+                  </li>
+
+                    <p class="text-muted nav-heading mt-4 mb-1">
+                      <span>Upload Files</span>
+                    </p>
+                  <li class="nav-item dropdown">
+                    <a href="#contact" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                      <span class="fe fe-24 fe-upload-cloud"></span>
+                      <span class="ml-3 item-text">Upload Files</span>
+                    </a>
+                    <ul class="collapse list-unstyled pl-4 w-100" id="contact">
+                      <a class="nav-link pl-3" href="/uploadpublicly"><span class="ml-1">Public</span></a>
+                      <a class="nav-link pl-3" href="/uploadprivately"><span class="ml-1">Private</span></a>
+                      <a class="nav-link pl-3" href="/userprivilege"><span class="ml-1">User Privilege</span></a>
+                    </ul>
+                  </li>
+                  <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>Share Files</span>
+                  </p>
+
+                  <li class="nav-item w-100">
+                    <a class="nav-link" href="/sharefiles">
+                      <span class="fe fe-24 fe-share-2"></span>
+                      <span class="ml-3 item-text">Share Files</span>
+                    </a>
+                  </li>
+
+                  <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>Download Files</span>
+                  </p>
+
+                  <li class="nav-item w-100">
+                    <a class="nav-link" href="/sharedfiles">
+                      <span class="fe fe-24 fe-users"></span>
+                      <span class="ml-3 item-text">Shared with me</span>
+                    </a>
+                  </li>
+                  <li class="nav-item w-100">
+                    <a class="nav-link" href="/publicfiles">
+                     <span class="fe fe-24 fe-download-cloud"></span>
+                      <span class="ml-3 item-text">Public Files</span>
+                    </a>
+                  </li>
+                  <li class="nav-item w-100">
+                    <a class="nav-link" href="/privatefiles">
+                      <span class="fe fe-24 fe-lock"></span>
+                      <span class="ml-3 item-text">Private Files</span>
+                    </a>
+                  </li>
+
+                  <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>Premium Package</span>
+                  </p>
+
+                  <li class="nav-item w-100">
+                    <a class="nav-link" href="/DocVaultPremium">
+                      <span class="fe fe-grid fe-16"></span>
+                      <span class="ml-3 item-text">Premium</span>
+                    </a>
+                  </li>
+
+                  <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>Help Desk</span>
+                  </p>
+                  <li class="nav-item w-100">
+                    <a class="nav-link" href="/enquiry">
+                      <span class="fe fe-help-circle fe-16"></span>
+                      <span class="ml-3 item-text">Enquiry</span>
+                    </a>
+                  </li>
+                   <p class="text-muted nav-heading mt-4 mb-1">
+                    <span>Feedback</span>
+                  </p>
+                  <li class="nav-item w-100">
+                    <a class="nav-link" href="/feedback">
+                      <span class="fe fe-24 fe-message-square"></span>
+                      <span class="ml-3 item-text">Feedback</span>
+                    </a>
+                  </li>
+                </ul>
+                  <div class="btn-box w-100 mt-4 mb-1">
+                  <a href="logout" class="btn mb-2 btn-primary btn-lg btn-block">
+                    <span class="small"> Logout </span>
+                  </a>
+                </div>
+            {% else %}
+            <p class="text-muted nav-heading mt-4 mb-1">
+                <span>Upload Files</span>
+              </p>
+            <li class="nav-item dropdown">
+              <a href="#contact" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                <span class="fe fe-24 fe-upload-cloud"></span>
+                <span class="ml-3 item-text">Upload Files</span>
+              </a>
+              <ul class="collapse list-unstyled pl-4 w-100" id="contact">
+                <a class="nav-link pl-3" href="/uploadpublicly"><span class="ml-1">Public</span></a>
+                <a class="nav-link pl-3" href="/uploadprivately"><span class="ml-1">Private</span></a>
+                <a class="nav-link pl-3" href="/userprivilege"><span class="ml-1">User Privilege</span></a>
+              </ul>
+            </li>
+            <p class="text-muted nav-heading mt-4 mb-1">
+              <span>Premium Package</span>
+            </p>
+
+            <li class="nav-item w-100">
+              <a class="nav-link" href="/DocVaultPremium">
+                <span class="fe fe-grid fe-16"></span>
+                <span class="ml-3 item-text">Premium</span>
+              </a>
+            </li>
+          <p class="text-muted nav-heading mt-4 mb-1">
+              <span>Help Desk</span>
+            </p>
+           <li class="nav-item w-100">
+              <a class="nav-link" href="/contact">
+                <span class="fe fe-24 fe-message-square"></span>
+                <span class="ml-3 item-text">Contact</span>
+              </a>
+            </li>
+          <div class="btn-box w-100 mt-4 mb-1">
+            <a href="/register" target="_blank" class="btn mb-2 btn-primary btn-lg btn-block">
+              <span class="small">Register</span>
+            </a>
+          </div>
+            {% endif %}
+        </nav>
+      </aside>
+<!--# dash, upload, premium, help-contact, register-->
+<!--# dash, myuploads,bin, uploads, share, shred, public, private, premium, help-enquiry, feedback, logout-->
+
+    {% block content %}
+
+        {% endblock %}
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/moment.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/simplebar.min.js"></script>
+    <script src='static/js/daterangepicker.js'></script>
+    <script src='static/js/jquery.stickOnScroll.js'></script>
+    <script src="static/js/tinycolor-min.js"></script>
+    <script src="static/js/config.js"></script>
+    <script src="static/js/d3.min.js"></script>
+    <script src="static/js/topojson.min.js"></script>
+    <script src="static/js/datamaps.all.min.js"></script>
+    <script src="static/js/datamaps-zoomto.js"></script>
+    <script src="static/js/datamaps.custom.js"></script>
+    <script src="static/js/Chart.min.js"></script>
+    <script src='static/js/jquery.dataTables.min.js'></script>
+    <script src='static/js/dataTables.bootstrap4.min.js'></script>
+<!--      Show Name While Uploading-->
+      <script>
+    document.getElementById('customFile').addEventListener('change', function (e) {
+        var fileName = e.target.files[0].name;
+        var label = document.querySelector('.custom-file-label');
+        label.textContent = fileName;
+    });
+</script>
+    <script>
+      $('#dataTable-1').DataTable(
+      {
+        autoWidth: true,
+        "lengthMenu": [
+          [16, 32, 64, -1],
+          [16, 32, 64, "All"]
+        ]
+      });
+    </script>
+     <script>
+        function closeModalAndResetForm(modal) {
+            // Close the modal
+            $(modal).modal('hide');
+
+            // Reset the form after 3 seconds
+            setTimeout(function() {
+                $(modal).find('form')[0].reset();
+            }, 1000); // 1000 milliseconds = 3 seconds
+           }
+     </script>
+      <script>
+    function focusPasswordField(modalId) {
+        $(modalId).on('shown.bs.modal', function () {
+            $(modalId).find('#passwordForm').focus();
+        });
+    }
+</script>
+
+    <script>
+      /* defind global options */
+      Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
+      Chart.defaults.global.defaultFontColor = colors.mutedColor;
+    </script>
+    <script src="static/js/gauge.min.js"></script>
+    <script src="static/js/jquery.sparkline.min.js"></script>
+    <script src="static/js/apexcharts.min.js"></script>
+    <script src="static/js/apexcharts.custom.js"></script>
+    <script src='static/js/jquery.mask.min.js'></script>
+    <script src='static/js/select2.min.js'></script>
+    <script src='static/js/jquery.steps.min.js'></script>
+    <script src='static/js/jquery.validate.min.js'></script>
+    <script src='static/js/jquery.timepicker.js'></script>
+    <script src='static/js/dropzone.min.js'></script>
+    <script src='static/js/uppy.min.js'></script>
+    <script src='static/js/quill.min.js'></script>
+    <script>
+      $('.select2').select2(
+      {
+        theme: 'bootstrap4',
+      });
+      $('.select2-multi').select2(
+      {
+        multiple: true,
+        theme: 'bootstrap4',
+      });
+      $('.drgpicker').daterangepicker(
+      {
+        singleDatePicker: true,
+        timePicker: false,
+        showDropdowns: true,
+        locale:
+        {
+          format: 'MM/DD/YYYY'
+        }
+      });
+      $('.time-input').timepicker(
+      {
+        'scrollDefault': 'now',
+        'zindex': '9999' /* fix modal open */
+      });
+      /** date range picker */
+      if ($('.datetimes').length)
+      {
+        $('.datetimes').daterangepicker(
+        {
+          timePicker: true,
+          startDate: moment().startOf('hour'),
+          endDate: moment().startOf('hour').add(32, 'hour'),
+          locale:
+          {
+            format: 'M/DD hh:mm A'
+          }
+        });
+      }
+      var start = moment().subtract(29, 'days');
+      var end = moment();
+
+      function cb(start, end)
+      {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      }
+      $('#reportrange').daterangepicker(
+      {
+        startDate: start,
+        endDate: end,
+        ranges:
+        {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+      cb(start, end);
+      $('.input-placeholder').mask("00/00/0000",
+      {
+        placeholder: "__/__/____"
+      });
+      $('.input-zip').mask('00000-000',
+      {
+        placeholder: "____-___"
+      });
+      $('.input-money').mask("#.##0,00",
+      {
+        reverse: true
+      });
+      $('.input-phoneus').mask('(000) 000-0000');
+      $('.input-mixed').mask('AAA 000-S0S');
+      $('.input-ip').mask('0ZZ.0ZZ.0ZZ.0ZZ',
+      {
+        translation:
+        {
+          'Z':
+          {
+            pattern: /[0-9]/,
+            optional: true
+          }
+        },
+        placeholder: "___.___.___.___"
+      });
+      // editor
+      var editor = document.getElementById('editor');
+      if (editor)
+      {
+        var toolbarOptions = [
+          [
+          {
+            'font': []
+          }],
+          [
+          {
+            'header': [1, 2, 3, 4, 5, 6, false]
+          }],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [
+          {
+            'header': 1
+          },
+          {
+            'header': 2
+          }],
+          [
+          {
+            'list': 'ordered'
+          },
+          {
+            'list': 'bullet'
+          }],
+          [
+          {
+            'script': 'sub'
+          },
+          {
+            'script': 'super'
+          }],
+          [
+          {
+            'indent': '-1'
+          },
+          {
+            'indent': '+1'
+          }], // outdent/indent
+          [
+          {
+            'direction': 'rtl'
+          }], // text direction
+          [
+          {
+            'color': []
+          },
+          {
+            'background': []
+          }], // dropdown with defaults from theme
+          [
+          {
+            'align': []
+          }],
+          ['clean'] // remove formatting button
+        ];
+        var quill = new Quill(editor,
+        {
+          modules:
+          {
+            toolbar: toolbarOptions
+          },
+          theme: 'snow'
+        });
+      }
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function()
+      {
+        'use strict';
+        window.addEventListener('load', function()
+        {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form)
+          {
+            form.addEventListener('submit', function(event)
+            {
+              if (form.checkValidity() === false)
+              {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+
+    <script>
+    var uptarg = document.getElementById('drag-drop-area');
+    if (uptarg) {
+        var uppy = Uppy.Core().use(Uppy.Dashboard, {
+            inline: true,
+            target: uptarg,
+            proudlyDisplayPoweredByUppy: false,
+            theme: 'dark',
+            width: 770,
+            height: 210,
+        }).use(Uppy.Tus, {
+            endpoint: 'http://127.0.0.1:8000/getfile'
+        });
+
+        uppy.on('complete', (result) => {
+            // Check if there are any successful uploads
+            if (result.successful.length > 0) {
+                // Prepare data to send to the backend
+                var formData = new FormData();
+                result.successful.forEach((file) => {
+                    formData.append('files[]', file.data);
+                });
+
+                // Send the data to the backend using AJAX
+                fetch('/getfile', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    // Handle response from the server
+                    console.log('Upload response:', response);
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('Error uploading files:', error);
+                });
+            } else {
+                console.log('No files uploaded successfully.');
+            }
+        });
+    }
+</script>
+    <script src="static/js/apps.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag()
+      {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-56159088-1');
+    </script>
+  </body>
+</html>
+

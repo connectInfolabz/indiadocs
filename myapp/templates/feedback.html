@@ -1,0 +1,108 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<style>
+  .rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+
+.rating > input {
+    display: none;
+}
+
+.rating > label {
+    display: inline-block;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.rating > label:before {
+    content: '★';
+    padding: 5px;
+    font-size: 24px;
+}
+
+.rating > input:checked ~ label {
+    color: #ffca08;
+}
+</style>
+      <main role="main" class="main-content">
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <h2 class="page-title">Give your valuable Feedback</h2>
+              <p class="text-muted">Hope you like it.</p>
+              <hr class="my-4">
+              <div class="card shadow mb-4">
+                <div class="card-header">
+                  <strong class="card-title">Feedback Form</strong>
+                </div>
+                <form action="/getfeedback" method="POST">
+                  {% csrf_token %}
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="simpleinput">First Name</label>
+                          {% if data.fname %}
+                          <input type="text" id="simpleinput" class="form-control" value="{{data.fname}}" readonly="" name="fname">
+                          {% else %}
+                          <input type="text" id="simpleinput" class="form-control" name="fname" required>
+                          {% endif %}
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group mb-3">
+                          <label for="example-helping">Last Name</label>
+                          {% if data.lname %}
+                          <input type="text" value="{{data.lname}}" readonly="" name="lname" id="example-helping" class="form-control" placeholder="Input with helping text">
+                          {% else %}
+                          <input type="text"  name="lname" id="example-helping" class="form-control" required>
+                          {% endif %}
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group mb-3">
+                          <label for="example-email">Email</label>
+                          {% if data.email %}
+                          <input type="email" id="example-email" value="{{data.email}}" readonly="" name="mail" class="form-control" placeholder="Email">
+                          {% else %}
+                          <input type="email" id="example-email" name="mail" class="form-control" placeholder="Email" required>
+                          {% endif %}
+                          We'll never share your email with anyone
+                        </div>
+                      </div>
+                      <div class="col-12">
+                                    <div class="form-group mb-3">
+                                      Rate:
+                                        <div class="rating">
+                                            <input type="radio" name="rating" value="5" id="5"><label for="5"></label>
+                                            <input type="radio" name="rating" value="4" id="4"><label for="4"></label>
+                                            <input type="radio" name="rating" value="3" id="3"><label for="3"></label>
+                                            <input type="radio" name="rating" value="2" id="2"><label for="2"></label>
+                                            <input type="radio" name="rating" value="1" id="1"><label for="1"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                      <div class="col-12">
+                        <div class="form-group mb-3">
+                          <label for="example-msg">Your Feedback</label>
+                          <textarea class="form-control" id="example-msg" name="message" rows="5" required></textarea>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group mb-3">
+                          <button class="btn btn-large btn-block btn-primary" type="submit">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div> <!-- / .card -->
+            </div> <!-- .col-12 -->
+
+          </div> <!-- .row -->
+        </div> <!-- .container-fluid -->
+
+        {% endblock %}
